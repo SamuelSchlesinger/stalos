@@ -1,0 +1,19 @@
+#![no_std]
+#![no_main]
+
+use fmt::write;
+
+mod vga_buffer;
+
+const HELLO: &[u8] = b"Hello, world!";
+
+#[panic_handler]
+fn panic(_info: &core::panic::PanicInfo) -> ! {
+    loop {}
+}
+
+#[no_mangle]
+pub extern "C" fn _start() -> ! {
+    fmt::write!(vga_buffer::WRITER.lock(), "Hello, {}!", "Sam");
+    loop {}
+}
